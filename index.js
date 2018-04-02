@@ -1,9 +1,20 @@
 let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
- 
+let os = require('os');
+let ip = '';
+
+Object.keys(os.networkInterfaces()).forEach(function (ifname) {
+  os.networkInterfaces()[ifname].forEach(function (iface) {
+    if ('IPv4' == iface.family && iface.internal == false)
+      console.log(ifname, iface.address);
+  });
+});
+
+let port = process.env.PORT || 3001;
+console.log('Using Port', port);
+
 io.on('connection', (socket) => {
-  
   socket.on('disconnect', function(){
     io.emit('users-changed', {user: socket.nickname, event: 'left'});   
   });
@@ -17,9 +28,5 @@ io.on('connection', (socket) => {
     io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});    
   });
 });
- 
-var port = process.env.PORT || 3001;
- 
-http.listen(port, function(){
-   console.log('listening in http://localhost:' + port);
-});
+
+http.listen(9999, function(){});
