@@ -29,4 +29,9 @@ io.on('connection', (socket) => {
   });
 });
 
+var app = express();
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
 http.listen(9999, function(){});
