@@ -6,7 +6,7 @@ let ip = '';
 
 Object.keys(os.networkInterfaces()).forEach(function (ifname) {
   os.networkInterfaces()[ifname].forEach(function (iface) {
-    if ('IPv4' == iface.family && iface.internal == false){
+    if ('IPv4' === iface.family && iface.internal == false){
       console.log(ifname, iface.address);
       ip = iface.address;
     }
