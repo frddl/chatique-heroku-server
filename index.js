@@ -6,8 +6,10 @@ let ip = '';
 
 Object.keys(os.networkInterfaces()).forEach(function (ifname) {
   os.networkInterfaces()[ifname].forEach(function (iface) {
-    if ('IPv4' == iface.family && iface.internal == false)
+    if ('IPv4' == iface.family && iface.internal == false){
       console.log(ifname, iface.address);
+      ip = iface.address;
+    }
   });
 });
 
@@ -29,9 +31,8 @@ io.on('connection', (socket) => {
   });
 });
 
-var app = express();
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('using the IP ' + ip + ' on the port ' + port);
 });
 
-http.listen(9999, function(){});
+http.listen(port, function(){});
